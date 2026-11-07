@@ -19,14 +19,16 @@
     <section class="toolbar">
       <button id="prevBtn" class="secondary">← Câu trước</button><select id="questionSelect" aria-label="Chọn câu hỏi"></select><button id="nextBtn" class="secondary">Câu tiếp →</button><button id="randomBtn" class="ghost">⌘ Câu ngẫu nhiên</button><button id="examBtn" class="exam-btn">Tạo đề 60 câu</button>
     </section>
-    <section class="question-nav" aria-label="Danh sách câu hỏi"><div class="question-nav-head"><strong>Danh sách câu hỏi</strong><span><i class="legend correct">✓</i> Đúng <i class="legend wrong">×</i> Sai <i class="legend marked">o</i> Đánh dấu</span></div><div id="questionList" class="question-list"></div></section>
-    <section class="quiz-card">
-      <button id="starBtn" class="star-btn" type="button" aria-label="Đánh dấu câu hỏi" aria-pressed="false">☆</button>
-      <div class="question-meta"><span id="questionNumber">CÂU 001</span><span id="multiBadge" class="badge hidden">CHỌN NHIỀU</span></div>
-      <h2 id="questionText">Đang tải câu hỏi…</h2><div id="options" class="options"></div><div id="result" class="result hidden"></div>
-      <div class="actions"><button id="resetBtn" class="link-btn">Bỏ chọn</button></div>
-      <div id="explanation" class="explanation hidden"><h3>Giải thích</h3><div id="explanationText"></div></div>
-    </section>
+    <div class="content-grid">
+      <section class="question-nav" aria-label="Danh sách câu hỏi"><div class="question-nav-head"><strong>Danh sách câu hỏi</strong><span><i class="legend correct">✓</i> Đúng <i class="legend wrong">×</i> Sai <i class="legend marked">o</i> Đánh dấu</span></div><div id="questionList" class="question-list"></div></section>
+      <section class="quiz-card">
+        <button id="starBtn" class="star-btn" type="button" aria-label="Đánh dấu câu hỏi" aria-pressed="false">☆</button>
+        <div class="question-meta"><span id="questionNumber">CÂU 001</span><span id="multiBadge" class="badge hidden">CHỌN NHIỀU</span></div>
+        <h2 id="questionText">Đang tải câu hỏi…</h2><div id="options" class="options"></div><div id="result" class="result hidden"></div>
+        <div class="actions"><button id="resetBtn" class="link-btn">Bỏ chọn</button></div>
+        <div id="explanation" class="explanation hidden"><h3>Giải thích</h3><div id="explanationText"></div></div>
+      </section>
+    </div>
     <footer>Ôn tập cá nhân • Nội dung đáp án và giải thích được giữ theo tài liệu nguồn.</footer>
   </main>
   <script src="app.js"></script>
