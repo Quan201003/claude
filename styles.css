@@ -45,7 +45,7 @@ body { margin:0; background:radial-gradient(circle at 10% 0%,#eeeaff,transparent
 .question-meta { display:flex; align-items:center; gap:10px; color:var(--accent); font-weight:800; font-size:13px; letter-spacing:.08em; padding-right:36px; }
 .badge { font-size:10px; background:#fff3dc; color:#a96a08; padding:4px 7px; border-radius:99px; letter-spacing:.05em; }
 .hidden { display:none!important; }
-.quiz-card h2 { font-size:clamp(20px,3vw,28px); line-height:1.35; margin:16px 0 26px; white-space:pre-line; }
+.quiz-card h2 { font-size:clamp(20px,3vw,28px); line-height:1.35; margin:16px 0 26px; white-space:normal; }
 .options { display:grid; gap:12px; }
 .option { display:flex; gap:13px; align-items:flex-start; border:1px solid var(--line); border-radius:14px; padding:15px 16px; cursor:pointer; transition:.18s; background:#fff; }
 .option:hover { border-color:#bcb5ff; background:#fbfaff; }
