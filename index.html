@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCDV-F Quiz</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">CLAUDE CERTIFIED DEVELOPER FOUNDATIONS</p>
+        <h1>CCDV-F Practice Quiz</h1>
+        <p class="subtitle">155 câu hỏi ôn tập • Chọn đáp án và xem giải thích tiếng Việt</p>
+      </div>
+      <div class="progress-card">
+        <span id="progressText">Câu 1 / 155</span>
+        <div class="progress"><span id="progressBar"></span></div>
+      </div>
+    </header>
+
+    <section class="toolbar">
+      <button id="prevBtn" class="secondary">← Câu trước</button>
+      <select id="questionSelect" aria-label="Chọn câu hỏi"></select>
+      <button id="nextBtn" class="secondary">Câu tiếp →</button>
+      <button id="randomBtn" class="ghost">⌘ Câu ngẫu nhiên</button>
+    </section>
+
+    <section class="quiz-card">
+      <div class="question-meta"><span id="questionNumber">CÂU 001</span><span id="multiBadge" class="badge hidden">CHỌN NHIỀU</span></div>
+      <h2 id="questionText">Đang tải câu hỏi…</h2>
+      <div id="options" class="options"></div>
+      <div id="result" class="result hidden"></div>
+      <div class="actions"><button id="checkBtn" class="primary">Kiểm tra đáp án</button><button id="resetBtn" class="link-btn">Bỏ chọn</button></div>
+      <div id="explanation" class="explanation hidden"><h3>Giải thích</h3><div id="explanationText"></div></div>
+    </section>
+
+    <footer>Ôn tập cá nhân • Nội dung đáp án và giải thích được giữ theo tài liệu nguồn.</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
