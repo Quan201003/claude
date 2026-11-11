@@ -220,3 +220,26 @@ $('clearMarksBtn').onclick = () => {
   persistMarks();
   applyFilter();
 };
+
+document.addEventListener('keydown', event => {
+  if (event.ctrlKey || event.metaKey || event.altKey) return;
+  const activeTag = document.activeElement?.tagName;
+  if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') return;
+
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault();
+    go(current - 1);
+  } else if (event.key === 'ArrowRight') {
+    event.preventDefault();
+    go(current + 1);
+  } else if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    if (activeQuestions.length) {
+      isFlipped = !isFlipped;
+      renderFlashcard();
+    }
+  } else if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    toggleMark();
+  }
+});
