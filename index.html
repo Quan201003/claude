@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CCDV-F Quiz</title>
+  <title>CCDV-F Flashcard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -11,25 +11,77 @@
     <header class="hero">
       <div>
         <p class="eyebrow">CLAUDE CERTIFIED DEVELOPER FOUNDATIONS</p>
-        <h1>CCDV-F Practice Quiz</h1>
-        <p class="subtitle">155 câu hỏi ôn tập • Chọn đáp án để xem kết quả ngay</p>
+        <h1>Học bằng flashcard</h1>
+        <p class="subtitle">Lật thẻ để nhớ lâu hơn, đánh dấu câu cần ôn lại.</p>
       </div>
-      <div class="progress-card"><span id="progressText">Câu 1 / 155</span><div class="progress"><span id="progressBar"></span></div></div>
+      <div class="progress-card">
+        <span id="progressText">Câu 1 / 155</span>
+        <div class="progress"><span id="progressBar"></span></div>
+        <small id="markedCount">0 câu đã đánh dấu</small>
+      </div>
     </header>
-    <section class="toolbar">
-      <button id="prevBtn" class="secondary">← Câu trước</button><select id="questionSelect" aria-label="Chọn câu hỏi"></select><button id="nextBtn" class="secondary">Câu tiếp →</button><button id="randomBtn" class="ghost">⌘ Câu ngẫu nhiên</button><button id="examBtn" class="exam-btn">Tạo đề 60 câu</button>
+
+    <section class="mode-switch" aria-label="Chế độ học">
+      <button id="flashcardModeBtn" class="mode-btn active" type="button">▣ Flashcard</button>
+      <button id="quizModeBtn" class="mode-btn" type="button">✓ Làm quiz</button>
     </section>
+
+    <section class="toolbar">
+      <button id="prevBtn" class="secondary" type="button">← Câu trước</button>
+      <select id="questionSelect" aria-label="Chọn câu hỏi"></select>
+      <button id="nextBtn" class="secondary" type="button">Câu tiếp →</button>
+      <button id="randomBtn" class="ghost" type="button">⌘ Câu ngẫu nhiên</button>
+      <button id="examBtn" class="exam-btn" type="button">Tạo đề 60 câu</button>
+    </section>
+
+    <section class="study-filter" aria-label="Bộ lọc câu hỏi">
+      <span class="filter-label">Bộ thẻ</span>
+      <button class="filter-btn active" data-filter="all" type="button">Tất cả <span id="allCount">155</span></button>
+      <button class="filter-btn" data-filter="marked" type="button">★ Đã đánh dấu <span id="filterMarkedCount">0</span></button>
+      <button id="clearMarksBtn" class="clear-marks" type="button">Xóa đánh dấu</button>
+    </section>
+
     <div class="content-grid">
-      <section class="question-nav" aria-label="Danh sách câu hỏi"><div class="question-nav-head"><strong>Danh sách câu hỏi</strong><span><i class="legend correct">✓</i> Đúng <i class="legend wrong">×</i> Sai <i class="legend marked">o</i> Đánh dấu</span></div><div id="questionList" class="question-list"></div></section>
-      <section class="quiz-card">
+      <section class="question-nav" aria-label="Danh sách câu hỏi">
+        <div class="question-nav-head">
+          <strong>Danh sách câu hỏi</strong>
+          <span><i class="legend correct">✓</i> Đúng <i class="legend wrong">×</i> Sai <i class="legend marked">★</i> Đánh dấu</span>
+        </div>
+        <div id="questionList" class="question-list"></div>
+      </section>
+
+      <section id="flashcardView" class="study-card-view">
+        <div class="flashcard-hint">Bấm vào thẻ hoặc nút bên dưới để lật thẻ</div>
+        <button id="flashcard" class="flashcard" type="button" aria-label="Lật flashcard" aria-pressed="false">
+          <span class="card-face card-front">
+            <span class="face-label">CÂU HỎI</span>
+            <strong id="flashQuestion">Đang tải câu hỏi…</strong>
+            <span class="flip-hint">↻ Bấm để xem đáp án</span>
+          </span>
+          <span class="card-face card-back">
+            <span class="face-label">ĐÁP ÁN &amp; GỢI Ý</span>
+            <strong id="flashAnswer"></strong>
+            <span id="flashExplanation"></span>
+          </span>
+        </button>
+        <div class="flash-actions">
+          <button id="flipBtn" class="primary-action" type="button">Lật thẻ</button>
+          <button id="markCardBtn" class="mark-action" type="button">☆ Đánh dấu câu này</button>
+        </div>
+      </section>
+
+      <section id="quizView" class="quiz-card hidden">
         <button id="starBtn" class="star-btn" type="button" aria-label="Đánh dấu câu hỏi" aria-pressed="false">☆</button>
         <div class="question-meta"><span id="questionNumber">CÂU 001</span><span id="multiBadge" class="badge hidden">CHỌN NHIỀU</span></div>
-        <h2 id="questionText">Đang tải câu hỏi…</h2><div id="options" class="options"></div><div id="result" class="result hidden"></div>
-        <div class="actions"><button id="resetBtn" class="link-btn">Bỏ chọn</button></div>
+        <h2 id="questionText">Đang tải câu hỏi…</h2>
+        <div id="options" class="options"></div>
+        <div id="result" class="result hidden"></div>
+        <div class="actions"><button id="resetBtn" class="link-btn" type="button">Bỏ chọn</button></div>
         <div id="explanation" class="explanation hidden"><h3>Giải thích</h3><div id="explanationText"></div></div>
       </section>
     </div>
-    <footer>Ôn tập cá nhân • Nội dung đáp án và giải thích được giữ theo tài liệu nguồn.</footer>
+    <p id="emptyState" class="empty-state hidden">Chưa có câu nào được đánh dấu. Hãy bấm ☆ trên thẻ để lưu câu cần ôn lại.</p>
+    <footer>Ôn tập cá nhân • Tiến độ và câu đánh dấu được lưu trên thiết bị này.</footer>
   </main>
   <script src="app.js"></script>
 </body>
