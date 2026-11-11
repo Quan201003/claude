@@ -89,6 +89,8 @@ function renderFlashcard() {
   const q = currentQuestion();
   $('flashcard').classList.toggle('is-flipped', isFlipped);
   $('flashcard').setAttribute('aria-pressed', String(isFlipped));
+  const density = q.question.length > 700 ? 'compact' : q.question.length > 420 ? 'dense' : 'normal';
+  $('flashcard').dataset.density = density;
   $('flashQuestionNumber').textContent = `CÂU ${String(current + 1).padStart(3, '0')}`;
   $('flashQuestion').textContent = q.question;
   $('flashOptions').innerHTML = q.options.map(option => `
