@@ -71,7 +71,7 @@ button { cursor: pointer; }
 .card-back .face-label { color: var(--accent2); }
 .card-face strong { max-width: 720px; font-size: clamp(22px, 3vw, 31px); line-height: 1.35; }
 .card-back strong { color: #127854; font-size: clamp(20px, 2.7vw, 28px); }
-.card-back > span:last-child { max-width: 700px; margin-top: 18px; color: #344054; white-space: pre-line; }
+.answer-list { max-width: 700px; margin-top: 18px; color: #344054; white-space: pre-line; text-align: left; font-size: clamp(16px, 2.1vw, 20px); line-height: 1.6; }
 .flip-hint { margin-top: 30px; color: var(--muted); font-size: 13px; }
 .flash-actions { display: flex; justify-content: center; gap: 10px; margin-top: 16px; }
 .primary-action, .mark-action { border: 1px solid var(--accent); border-radius: 10px; padding: 10px 17px; font-weight: 700; }

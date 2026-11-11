@@ -90,8 +90,11 @@ function renderFlashcard() {
   $('flashcard').classList.toggle('is-flipped', isFlipped);
   $('flashcard').setAttribute('aria-pressed', String(isFlipped));
   $('flashQuestion').textContent = q.question;
-  $('flashAnswer').textContent = `Đáp án: ${q.correct.join(', ')}`;
-  $('flashExplanation').textContent = q.explanation || 'Hãy tự giải thích lại ý chính của câu này.';
+  $('flashAnswer').textContent = q.correct.length > 1 ? 'Các đáp án đúng' : 'Đáp án đúng';
+  $('flashAnswerText').textContent = q.options
+    .filter(option => q.correct.includes(option.letter))
+    .map(option => `${option.letter}. ${option.text}`)
+    .join('\n');
   $('flipBtn').textContent = isFlipped ? 'Xem câu hỏi' : 'Lật thẻ';
   const isMarked = marked.has(questionId());
   $('markCardBtn').textContent = isMarked ? '★ Bỏ đánh dấu' : '☆ Đánh dấu câu này';
