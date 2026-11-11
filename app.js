@@ -89,7 +89,15 @@ function renderFlashcard() {
   const q = currentQuestion();
   $('flashcard').classList.toggle('is-flipped', isFlipped);
   $('flashcard').setAttribute('aria-pressed', String(isFlipped));
+  $('flashQuestionNumber').textContent = `CÂU ${String(current + 1).padStart(3, '0')}`;
   $('flashQuestion').textContent = q.question;
+  $('flashOptions').innerHTML = q.options.map(option => `
+    <span class="flash-option">
+      <span class="flash-option-dot"></span>
+      <span class="flash-option-letter">${option.letter}</span>
+      <span class="flash-option-text">${option.text}</span>
+    </span>
+  `).join('');
   $('flashAnswer').textContent = q.correct.length > 1 ? 'Các đáp án đúng' : 'Đáp án đúng';
   $('flashAnswerText').textContent = q.options
     .filter(option => q.correct.includes(option.letter))

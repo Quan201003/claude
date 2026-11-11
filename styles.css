@@ -61,18 +61,23 @@ button { cursor: pointer; }
 .question-chip.marked span { background: var(--gold); color: #fff; }
 .study-card-view { min-width: 0; }
 .flashcard-hint { text-align: center; color: var(--muted); font-size: 13px; margin: 2px 0 9px; }
-.flashcard { position: relative; display: block; width: 100%; min-height: 390px; padding: 0; border: 0; background: transparent; perspective: 1200px; text-align: left; }
-.card-face { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; min-height: 390px; padding: clamp(28px, 6vw, 64px); border-radius: 24px; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .3s; box-shadow: 0 18px 50px rgba(34, 36, 66, .1); }
+.flashcard { position: relative; display: block; width: 100%; min-height: 520px; padding: 0; border: 0; background: transparent; perspective: 1200px; text-align: left; }
+.card-face { display: flex; flex-direction: column; justify-content: center; align-items: stretch; text-align: left; min-height: 520px; padding: clamp(28px, 5vw, 48px); border-radius: 24px; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .6s cubic-bezier(.2,.7,.2,1), box-shadow .3s; box-shadow: 0 18px 50px rgba(34, 36, 66, .1); }
 .card-front { background: linear-gradient(145deg, #fff 0%, #f4f1ff 100%); border: 1px solid #e2ddff; }
 .card-back { position: absolute; inset: 0; background: linear-gradient(145deg, #effbf6 0%, #fff 100%); border: 1px solid #bcebd9; transform: rotateY(180deg); }
 .flashcard.is-flipped .card-front { transform: rotateY(-180deg); }
 .flashcard.is-flipped .card-back { transform: rotateY(0); }
-.face-label { color: var(--accent); font-size: 11px; letter-spacing: .14em; font-weight: 900; margin-bottom: 22px; }
+.question-number { color: var(--accent); font-size: 14px; letter-spacing: .08em; font-weight: 900; margin-bottom: 24px; }
 .card-back .face-label { color: var(--accent2); }
 .card-face strong { max-width: 720px; font-size: clamp(22px, 3vw, 31px); line-height: 1.35; }
+.flash-options { display: grid; gap: 12px; width: 100%; margin-top: 28px; }
+.flash-option { display: flex; align-items: center; gap: 16px; min-height: 58px; padding: 13px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.72); color: var(--ink); }
+.flash-option-dot { width: 21px; height: 21px; flex: 0 0 21px; border: 1.5px solid #7b7f88; border-radius: 50%; background: #fff; }
+.flash-option-letter { color: var(--accent); font-size: 20px; font-weight: 900; min-width: 24px; }
+.flash-option-text { flex: 1; font-size: 17px; line-height: 1.45; }
 .card-back strong { color: #127854; font-size: clamp(20px, 2.7vw, 28px); }
 .answer-list { max-width: 700px; margin-top: 18px; color: #344054; white-space: pre-line; text-align: left; font-size: clamp(16px, 2.1vw, 20px); line-height: 1.6; }
-.flip-hint { margin-top: 30px; color: var(--muted); font-size: 13px; }
+.flip-hint { align-self: center; margin-top: 24px; color: var(--muted); font-size: 13px; }
 .flash-actions { display: flex; justify-content: center; gap: 10px; margin-top: 16px; }
 .primary-action, .mark-action { border: 1px solid var(--accent); border-radius: 10px; padding: 10px 17px; font-weight: 700; }
 .primary-action { color: #fff; background: var(--accent); }
@@ -115,6 +120,6 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 2
   .question-nav { position: static; max-height: none; margin-bottom: 16px; }
   .question-nav-head { flex-direction: row; align-items: center; }
   .question-list { max-height: 175px; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); }
-  .flashcard, .card-face { min-height: 350px; }
+  .flashcard, .card-face { min-height: 520px; }
   .flash-actions { flex-wrap: wrap; }
 }
