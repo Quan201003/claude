@@ -77,7 +77,12 @@
         <h2 id="questionText">Đang tải câu hỏi…</h2>
         <div id="options" class="options"></div>
         <div id="result" class="result hidden"></div>
-        <div class="actions"><button id="resetBtn" class="link-btn" type="button">Bỏ chọn</button></div>
+        <div id="examSummary" class="exam-summary hidden">
+          <h3>Kết quả đề thi</h3>
+          <div class="exam-stats"><span><strong id="examCorrect">0</strong> câu đúng</span><span><strong id="examWrong">0</strong> câu sai</span></div>
+          <button id="retryWrongBtn" class="retry-btn" type="button">Làm lại câu sai</button>
+        </div>
+        <div class="actions"><button id="resetBtn" class="link-btn" type="button">Bỏ chọn</button><button id="checkBtn" class="check-btn hidden" type="button">Kiểm tra đáp án</button><span id="examStatus" class="exam-status hidden"></span><button id="submitExamBtn" class="submit-btn hidden" type="button">Nộp bài</button></div>
         <div id="explanation" class="explanation hidden"><h3>Giải thích</h3><div id="explanationText"></div></div>
       </section>
     </div>

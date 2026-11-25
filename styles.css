@@ -117,6 +117,18 @@ button { cursor: pointer; }
 .result { margin-top: 20px; padding: 13px 15px; border-radius: 12px; font-weight: 700; }
 .result.good { background: #eafaf3; color: #127854; }
 .result.bad { background: #fff0f2; color: #b13b4c; }
+.exam-summary { margin-top: 20px; padding: 18px; border: 1px solid #d9d3ff; border-radius: 14px; background: #f8f6ff; }
+.exam-summary h3 { margin: 0 0 10px; color: var(--accent-dark); }
+.exam-stats { display: flex; gap: 18px; color: var(--muted); }
+.exam-stats strong { color: var(--ink); font-size: 24px; }
+.retry-btn, .check-btn, .submit-btn { border: 1px solid var(--accent); border-radius: 10px; padding: 9px 13px; font-weight: 700; }
+.check-btn { color: var(--accent); background: #f8f6ff; }
+.check-btn:hover { background: #eeeaff; }
+.retry-btn { margin-top: 14px; color: #fff; background: var(--accent); }
+.retry-btn:hover { background: var(--accent-dark); }
+.submit-btn { color: #fff; background: var(--ink); border-color: var(--ink); }
+.submit-btn:disabled { cursor: not-allowed; opacity: .45; }
+.exam-status { color: var(--muted); font-size: 13px; }
 .explanation { margin-top: 22px; padding: 20px; border-left: 4px solid var(--accent2); background: #f7fbfa; border-radius: 0 14px 14px 0; }
 .explanation h3 { margin: 0 0 8px; color: #127854; }
 .explanation div { white-space: pre-line; color: #344054; }

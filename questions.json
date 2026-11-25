@@ -3520,7 +3520,8 @@
       }
     ],
     "correct": [
-      "A"
+      "A",
+      "C"
     ],
     "multi": true,
     "explanation": "The Strands Agents SDK is designed to be model-agnostic and\nincludes first-class support for OpenTelemetry, allowing trace export to observability platforms like AWS\nCloudWatch.; LangGraph models agent workflows as directed graphs, giving developers precise control\nover branching and looping in execution paths.\nStrands hỗ trợ nhiều nhà cung cấp model và đo lường bằng OpenTelemetry. LangGraph biểu diễn luồng\ncó trạng thái bằng nút và cạnh, gồm cả rẽ nhánh và lặp. Cả hai nhận định đúng dù dự án tuyến tính\nkhông cần kiểm soát đồ thị.\nVì sao các phương án khác không phù hợp?\n• LangGraph can only orchestrate agents that use the Anthropic API because it was\ndeveloped by Anthropic.: LangGraph thuộc hệ sinh thái LangChain và không bị giới hạn ở Anthropic.\n• Pydantic AI includes a built-in OpenTelemetry collector that can be configured to send\ntraces to CloudWatch out of the box.: Tích hợp OpenTelemetry/Logfire không đồng nghĩa có sẵn\ncollector được cấu hình cho CloudWatch.\nCCDV-F | Tài liệu ôn tập cá nhân 146\n• Strands Agents SDK enforces that all agents are deployed on AWS and does not permit the\nuse of third-party model APIs.: Strands không bắt buộc chỉ chạy trên AWS hoặc chỉ dùng model\nAWS.\n• LangGraph is best suited for simple, linear agent chains because its graph model restricts\nthe developer to a single execution path.: Đồ thị hỗ trợ nhiều nhánh và vòng lặp, không chỉ một\nđường.\nĐã sửa đáp án nguồn: PDF chỉ đánh dấu một phương án, nhưng đề và đối chiếu từng lựa chọn cho thấy có\nnhiều phương án đúng. Xem báo cáo kiểm tra đáp án đi kèm.\nTham khảo:\n• aws.amazon.com —\nstrands-agents-sdk-a-technical-deep-dive-into-agent-architectures-and-observability\n• strandsagents.com — model-providers\n• strandsagents.com — observability\n• docs.langchain.com — overview\n• pydantic.dev — logfire\nCCDV-F | Tài liệu ôn tập cá nhân 147"
@@ -3887,7 +3888,9 @@
       }
     ],
     "correct": [
-      "A"
+      "A",
+      "B",
+      "D"
     ],
     "multi": true,
     "explanation": "A request fails with 413 request_too_large because the inlined\nmessage content itself exceeds the Messages API's maximum request payload size; A request fails with\n409 conflict_error because two workers concurrently modified the same underlying resource before this\nrequest was sent; A request fails with 401 authentication_error because the API key used to sign the\nrequest has expired\nLỗi kích thước cần giảm hoặc tổ chức lại đầu vào; xung đột cần xử lý trạng thái tài nguyên; lỗi xác thực\ncần thông tin đăng nhập hợp lệ. Đổi cách truyền hoặc ngân sách đầu ra không sửa ba nguyên nhân này.\nVì sao các phương án khác không phù hợp?\n• A response completes with stop_reason set to max_tokens because the generated content\nreached the configured output token cap: Đầu ra dừng vì max_tokens có thể được xử lý bằng tăng\ngiới hạn đầu ra nếu model hỗ trợ.\n• A request fails with 504 timeout_error because a very large non-streaming generation ran\npast the idle-connection limit on an unreliable network: Streaming có thể giúp tình huống kết nối\nkhông streaming bị timeout lúc chờ quá lâu như đề mô tả.\nĐã sửa đáp án nguồn: PDF chỉ đánh dấu một phương án, nhưng đề và đối chiếu từng lựa chọn cho thấy có\nnhiều phương án đúng. Xem báo cáo kiểm tra đáp án đi kèm.\nTham khảo:\n• platform.claude.com — errors\nCCDV-F | Tài liệu ôn tập cá nhân 162"
@@ -4111,7 +4114,9 @@
       }
     ],
     "correct": [
-      "A"
+      "A",
+      "B",
+      "C"
     ],
     "multi": true,
     "explanation": "Return a tool_result with is_error: true naming the missing field so\nClaude retries with it supplied; Add strict: true to the tool definition so input is validated against the\nschema before your handler; Improve the tool's description so the priority-field requirement is stated\nmore explicitly\nTrả lỗi nêu rõ priority để Claude sửa lời gọi. Strict tool use theo schema có thể ngăn thiếu trường; mô tả\nrõ hơn củng cố yêu cầu. Ba cách lần lượt hỗ trợ phục hồi, phòng ngừa và hướng dẫn; mô tả không thay\nthế kiểm tra dữ liệu.\nVì sao các phương án khác không phù hợp?\n• Automatically terminate the session and require the user to start an entirely new\nconversation: Khởi động lại cả phiên là không cần cho lỗi tham số có thể sửa.\n• Log the omission silently and proceed with ticket creation using a null priority value: Dùng\nnull âm thầm vi phạm ý nghĩa trường bắt buộc.\n• Rewrite the schema to make priority optional so it can never be reported as missing again:\nCho trường thành tùy chọn là bỏ hợp đồng yêu cầu priority.\nĐã sửa đáp án nguồn: PDF chỉ đánh dấu một phương án, nhưng đề và đối chiếu từng lựa chọn cho thấy có\nnhiều phương án đúng. Xem báo cáo kiểm tra đáp án đi kèm.\nTham khảo:\n• platform.claude.com — handle-tool-calls\n• platform.claude.com — strict-tool-use\nCCDV-F | Tài liệu ôn tập cá nhân 170"
@@ -4200,7 +4205,9 @@
       }
     ],
     "correct": [
-      "A"
+      "A",
+      "B",
+      "E"
     ],
     "multi": true,
     "explanation": "Redact or mask personally identifiable information in the\ntranscripts before they leave the system, sending the vendor only the fields it actually needs; Apply the\nsame PII minimization to data logged internally for debugging, not just to data sent to the external\nvendor; Review which fields the analytics vendor's quality-monitoring use case genuinely requires before\ndeciding what to include in each transcript export\nXác định trường dữ liệu cần cho giám sát, rồi che hoặc bỏ dữ liệu cá nhân không cần khi xuất và khi ghi\nlog nội bộ. Hợp đồng hay lời thông báo không tự làm giảm dữ liệu bị lộ.\nVì sao các phương án khác không phù hợp?\n• Send the full unredacted transcripts as-is, since the analytics vendor's contract already\ncovers general data handling and confidentiality obligations: Hợp đồng bảo mật không biện\nminh cho việc gửi định danh thô không cần thiết.\n• Compress the transcripts before sending them, since compression is treated as equivalent\nto redaction for the purpose of protecting personal data: Nén là biến đổi có thể khôi phục, không\nphải che dữ liệu.\n• Ask Claude to verbally warn the customer at the start of each chat that their data might be\nshared externally, then proceed without further changes: Cảnh báo bằng lời không xóa trường\nCCDV-F | Tài liệu ôn tập cá nhân 174\nthừa hoặc bảo vệ log.\nĐã sửa đáp án nguồn: PDF chỉ đánh dấu một phương án, nhưng đề và đối chiếu từng lựa chọn cho thấy có\nnhiều phương án đúng. Xem báo cáo kiểm tra đáp án đi kèm.\nTham khảo:\n• strandsagents.com — observability\n• pydantic.dev — logfire\nCCDV-F | Tài liệu ôn tập cá nhân 175"
@@ -4235,7 +4242,9 @@
       }
     ],
     "correct": [
-      "A"
+      "A",
+      "B",
+      "E"
     ],
     "multi": true,
     "explanation": "Scope each session's tool access so it can only read and act on\nthe data belonging to the authenticated customer for that session; Screen inbound account notes and\nsupport messages for injected instructions before they are returned to Claude as tool results; Require a\nfresh authorization check on the backend before executing any trade action the agent requests, rather\nthan trusting the agent's own judgment alone\nGiới hạn tool theo khách hàng của phiên và kiểm tra quyền lại tại backend trước mỗi giao dịch. Sàng lọc\nchỉ dẫn chèn trong ghi chú không tin cậy là lớp phòng vệ bổ sung trước việc vượt ranh giới; không thay\nthế phân quyền.\nVì sao các phương án khác không phù hợp?\n• Issue one shared service credential for the trading API that every customer session reuses,\nto simplify credential rotation: Một thông tin xác thực dùng chung không giới hạn chưa tạo phân\nquyền theo khách hàng.\n• Log full account numbers and portfolio balances in plaintext application logs so support\nstaff can search history freely: Log tài khoản nhạy cảm dạng rõ làm giảm bảo mật.\n• Let a session continue reading a different customer's data mid-conversation if the agent\ndecides it is contextually relevant to the current advice: Nhận định của agent không cấp quyền\nđọc dữ liệu khách hàng khác.\nCCDV-F | Tài liệu ôn tập cá nhân 176\nĐã sửa đáp án nguồn: PDF chỉ đánh dấu một phương án, nhưng đề và đối chiếu từng lựa chọn cho thấy có\nnhiều phương án đúng. Xem báo cáo kiểm tra đáp án đi kèm.\nTham khảo:\n• code.claude.com — secure-deployment\n• modelcontextprotocol.io — security_best_practices\n• platform.claude.com — mitigate-jailbreaks"

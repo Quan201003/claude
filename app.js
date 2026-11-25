@@ -7,6 +7,7 @@ let marked = new Set(JSON.parse(localStorage.getItem('ccdv-marked') || '[]'));
 let mode = 'flashcard';
 let viewFilter = 'all';
 let isFlipped = false;
+let examState = null;
 
 const $ = id => document.getElementById(id);
 
@@ -40,6 +41,12 @@ function buildSelector() {
 }
 
 function statusFor(item) {
+  if (examState?.active) {
+    if (!examState.submitted) return marked.has(item.originalIndex) ? 'marked' : '';
+    const result = examState.results[item.originalIndex];
+    if (result) return result.ok ? 'correct' : 'wrong';
+    return marked.has(item.originalIndex) ? 'marked' : '';
+  }
   const result = answered[item.originalIndex];
   if (marked.has(item.originalIndex)) return 'marked';
   if (!result) return '';
@@ -76,6 +83,9 @@ function render() {
   $('emptyState').classList.add('hidden');
   $('progressText').textContent = `Câu ${current + 1} / ${activeQuestions.length}`;
   $('progressBar').style.width = `${((current + 1) / activeQuestions.length) * 100}%`;
+  if (examState?.active && !examState.submitted) {
+    $('progressText').textContent = `Câu ${current + 1} / ${activeQuestions.length} · Đã chọn ${examAnsweredCount()} / ${activeQuestions.length}`;
+  }
   $('flashcardView').classList.toggle('hidden', mode !== 'flashcard');
   $('quizView').classList.toggle('hidden', mode !== 'quiz');
   $('flashcardModeBtn').classList.toggle('active', mode === 'flashcard');
@@ -123,20 +133,31 @@ function renderQuiz() {
   $('result').className = 'result hidden';
   $('explanation').className = 'explanation hidden';
   $('explanationText').textContent = '';
+  renderExamSummary();
   const isMarked = marked.has(questionId());
   $('starBtn').textContent = isMarked ? '★' : '☆';
   $('starBtn').classList.toggle('is-marked', isMarked);
   $('starBtn').setAttribute('aria-pressed', String(isMarked));
 
-  const prior = answered[questionId()];
+  const id = questionId();
+  const prior = examState?.active ? examState.selections[id] : answered[id];
+  $('checkBtn').classList.toggle('hidden', examState?.active || !q.multi || Boolean(prior));
   if (prior) {
     document.querySelectorAll('input[name=answer]').forEach(input => input.checked = prior.selected.includes(input.value));
-    showResult(prior.selected, prior.ok);
+    if (!examState?.active || examState.submitted) {
+      const ok = examState?.active ? examState.results[id]?.ok : prior.ok;
+      showResult(prior.selected, ok);
+    }
   }
   document.querySelectorAll('.option input').forEach(input => input.addEventListener('change', () => {
     document.querySelectorAll('.option').forEach(item => item.classList.toggle('selected', item.querySelector('input').checked));
     const picks = selected();
-    if (!q.multi || picks.length >= q.correct.length) check(picks);
+    if (examState?.active) {
+      examState.selections[questionId()] = { selected: picks };
+      updateExamStatus();
+    } else if (!q.multi) {
+      check(picks);
+    }
   }));
 }
 
@@ -147,8 +168,81 @@ function check(picks = selected()) {
   const q = currentQuestion();
   const ok = picks.length === q.correct.length && picks.every(value => q.correct.includes(value));
   answered[questionId()] = { selected: picks, ok };
+  $('checkBtn').classList.add('hidden');
   showResult(picks, ok);
   buildQuestionList();
+}
+
+function examAnsweredCount() {
+  if (!examState?.active) return 0;
+  return activeQuestions.filter(item => (examState.selections[item.originalIndex]?.selected || []).length > 0).length;
+}
+
+function updateExamStatus() {
+  if (!examState?.active || examState.submitted) return;
+  const count = examAnsweredCount();
+  $('examStatus').textContent = count === activeQuestions.length
+    ? 'Đã trả lời đủ. Bấm Nộp bài để xem kết quả.'
+    : `Còn ${activeQuestions.length - count} câu chưa trả lời.`;
+  $('examStatus').className = 'exam-status';
+  $('submitExamBtn').disabled = count !== activeQuestions.length;
+  render();
+}
+
+function renderExamSummary() {
+  const summary = $('examSummary');
+  $('resetBtn').classList.toggle('hidden', Boolean(examState?.active && examState.submitted));
+  if (!examState?.active || !examState.submitted) {
+    summary.className = 'exam-summary hidden';
+    $('examStatus').className = examState?.active ? 'exam-status' : 'exam-status hidden';
+    $('submitExamBtn').classList.toggle('hidden', !examState?.active);
+    if (examState?.active) {
+      const count = examAnsweredCount();
+      $('examStatus').textContent = count === activeQuestions.length
+        ? 'Đã trả lời đủ. Bấm Nộp bài để xem kết quả.'
+        : `Còn ${activeQuestions.length - count} câu chưa trả lời.`;
+      $('submitExamBtn').disabled = count !== activeQuestions.length;
+    }
+    return;
+  }
+
+  const correct = Object.values(examState.results).filter(result => result.ok).length;
+  const wrong = activeQuestions.length - correct;
+  $('examCorrect').textContent = correct;
+  $('examWrong').textContent = wrong;
+  $('retryWrongBtn').classList.toggle('hidden', wrong === 0);
+  $('retryWrongBtn').textContent = `Làm lại ${wrong} câu sai`;
+  summary.className = 'exam-summary';
+  $('examStatus').className = 'exam-status hidden';
+  $('submitExamBtn').classList.add('hidden');
+}
+
+function submitExam() {
+  if (!examState?.active || examState.submitted) return;
+  if (examAnsweredCount() !== activeQuestions.length) {
+    renderExamSummary();
+    return;
+  }
+  examState.results = {};
+  activeQuestions.forEach(item => {
+    const q = item.question;
+    const picks = examState.selections[item.originalIndex]?.selected || [];
+    const ok = picks.length === q.correct.length && picks.every(value => q.correct.includes(value));
+    examState.results[item.originalIndex] = { selected: picks, ok };
+  });
+  examState.submitted = true;
+  render();
+}
+
+function retryWrong() {
+  if (!examState?.submitted) return;
+  const wrongItems = activeQuestions.filter(item => !examState.results[item.originalIndex]?.ok);
+  if (!wrongItems.length) return;
+  deckItems = wrongItems;
+  current = 0;
+  viewFilter = 'all';
+  examState = { active: true, submitted: false, selections: {}, results: {} };
+  applyFilter();
 }
 
 function showResult(picks, ok) {
@@ -174,7 +268,16 @@ function toggleMark() {
   render();
 }
 
-function resetCurrent() { delete answered[questionId()]; render(); }
+function resetCurrent() {
+  const id = questionId();
+  if (examState?.active && !examState.submitted) {
+    delete examState.selections[id];
+    render();
+    return;
+  }
+  delete answered[id];
+  render();
+}
 
 function go(index) {
   if (!activeQuestions.length) return;
@@ -197,6 +300,8 @@ function createExam() {
   deckItems = shuffle(questions.map((question, originalIndex) => ({ question, originalIndex }))).slice(0, 60);
   current = 0;
   viewFilter = 'all';
+  mode = 'quiz';
+  examState = { active: true, submitted: false, selections: {}, results: {} };
   applyFilter();
 }
 
@@ -204,6 +309,9 @@ $('prevBtn').onclick = () => go(current - 1);
 $('nextBtn').onclick = () => go(current + 1);
 $('randomBtn').onclick = () => activeQuestions.length && go(Math.floor(Math.random() * activeQuestions.length));
 $('examBtn').onclick = createExam;
+$('submitExamBtn').onclick = submitExam;
+$('retryWrongBtn').onclick = retryWrong;
+$('checkBtn').onclick = () => check();
 $('resetBtn').onclick = resetCurrent;
 $('starBtn').onclick = toggleMark;
 $('markCardBtn').onclick = toggleMark;
@@ -213,6 +321,7 @@ $('flashcardModeBtn').onclick = () => { mode = 'flashcard'; render(); };
 $('quizModeBtn').onclick = () => { mode = 'quiz'; render(); };
 $('questionSelect').onchange = event => go(Number(event.target.value));
 document.querySelectorAll('.filter-btn').forEach(button => button.onclick = () => {
+  if (examState?.active) return;
   viewFilter = button.dataset.filter;
   current = 0;
   applyFilter();
