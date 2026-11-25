@@ -41,7 +41,7 @@ button { cursor: pointer; }
 .clear-marks { border: 0; background: transparent; margin-left: auto; }
 .clear-marks:hover, .link-btn:hover { color: var(--danger); }
 .content-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px; align-items: start; }
-.question-nav { background: rgba(255,255,255,.75); border: 1px solid var(--line); border-radius: 16px; padding: 14px; position: sticky; top: 16px; max-height: calc(100vh - 190px); overflow: hidden; }
+.question-nav { background: rgba(255,255,255,.75); border: 1px solid var(--line); border-radius: 16px; padding: 14px; position: sticky; top: 16px; height: calc(100vh - 150px); max-height: calc(100vh - 150px); display: flex; flex-direction: column; overflow: hidden; }
 .question-nav-head { display: flex; justify-content: space-between; align-items: flex-start; flex-direction: column; gap: 8px; color: var(--muted); font-size: 11px; margin-bottom: 12px; }
 .question-nav-head strong { color: var(--ink); font-size: 14px; }
 .legend { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 50%; font-style: normal; font-weight: 900; margin-left: 4px; }
@@ -49,7 +49,7 @@ button { cursor: pointer; }
 .legend.correct { color: #fff; background: var(--accent2); }
 .legend.wrong { color: #fff; background: var(--danger); }
 .legend.marked { color: #fff; background: var(--gold); }
-.question-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; max-height: calc(100vh - 270px); overflow: auto; padding: 2px; }
+.question-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; flex: 1; min-height: 0; overflow: auto; padding: 2px; }
 .question-chip { border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--muted); padding: 7px 2px; cursor: pointer; font-size: 10px; }
 .question-chip span { display: inline-flex; align-items: center; justify-content: center; font-weight: 900; width: 14px; height: 14px; border-radius: 50%; margin-right: 2px; }
 .question-chip.active { outline: 2px solid var(--accent); outline-offset: 1px; }
@@ -141,7 +141,7 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 2
   .toolbar select { order: 3; flex-basis: 100%; }
   .exam-btn { width: 100%; }
   .content-grid { display: block; }
-  .question-nav { position: static; max-height: none; margin-bottom: 16px; }
+  .question-nav { position: static; height: auto; max-height: none; margin-bottom: 16px; }
   .question-nav-head { flex-direction: row; align-items: center; }
   .question-list { max-height: 175px; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); }
   .flashcard, .card-face { min-height: 520px; }
@@ -164,7 +164,7 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 2
   .study-filter { min-height: 30px; margin-bottom: 7px; gap: 6px; }
   .filter-btn, .clear-marks { padding: 5px 9px; font-size: 12px; }
   .content-grid { flex: none; min-height: 0; }
-  .question-nav { max-height: calc(100vh - 250px); height: auto; }
+  .question-nav { height: calc(100vh - 180px); max-height: calc(100vh - 180px); }
   .study-card-view { display: flex; flex-direction: column; min-height: 0; }
   .flashcard-hint { flex: 0 0 auto; font-size: 11px; margin: 0 0 5px; }
   .flashcard { flex: none; min-height: 0; height: auto; }

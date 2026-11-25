@@ -141,20 +141,31 @@ function renderQuiz() {
 
   const id = questionId();
   const prior = examState?.active ? examState.selections[id] : answered[id];
+  const submittedResult = examState?.active && examState.submitted ? examState.results[id] : null;
   $('checkBtn').classList.toggle('hidden', examState?.active || !q.multi || Boolean(prior));
-  if (prior) {
-    document.querySelectorAll('input[name=answer]').forEach(input => input.checked = prior.selected.includes(input.value));
+  if (prior || submittedResult) {
+    const picks = prior?.selected || submittedResult?.selected || [];
+    document.querySelectorAll('input[name=answer]').forEach(input => input.checked = picks.includes(input.value));
     if (!examState?.active || examState.submitted) {
-      const ok = examState?.active ? examState.results[id]?.ok : prior.ok;
-      showResult(prior.selected, ok);
+      const ok = examState?.active ? submittedResult?.ok : prior.ok;
+      showResult(picks, ok);
     }
   }
   document.querySelectorAll('.option input').forEach(input => input.addEventListener('change', () => {
     document.querySelectorAll('.option').forEach(item => item.classList.toggle('selected', item.querySelector('input').checked));
     const picks = selected();
     if (examState?.active) {
-      examState.selections[questionId()] = { selected: picks };
+      const questionIndex = current;
+      const id = questionId();
+      examState.selections[id] = { selected: picks };
       updateExamStatus();
+      if (!q.multi && questionIndex < activeQuestions.length - 1) {
+        window.setTimeout(() => {
+          if (examState?.active && !examState.submitted && current === questionIndex) {
+            go(questionIndex + 1);
+          }
+        }, 0);
+      }
     } else if (!q.multi) {
       check(picks);
     }
@@ -185,7 +196,7 @@ function updateExamStatus() {
     ? 'Đã trả lời đủ. Bấm Nộp bài để xem kết quả.'
     : `Còn ${activeQuestions.length - count} câu chưa trả lời.`;
   $('examStatus').className = 'exam-status';
-  $('submitExamBtn').disabled = count !== activeQuestions.length;
+  $('submitExamBtn').disabled = false;
   render();
 }
 
@@ -201,7 +212,7 @@ function renderExamSummary() {
       $('examStatus').textContent = count === activeQuestions.length
         ? 'Đã trả lời đủ. Bấm Nộp bài để xem kết quả.'
         : `Còn ${activeQuestions.length - count} câu chưa trả lời.`;
-      $('submitExamBtn').disabled = count !== activeQuestions.length;
+      $('submitExamBtn').disabled = false;
     }
     return;
   }
@@ -219,10 +230,6 @@ function renderExamSummary() {
 
 function submitExam() {
   if (!examState?.active || examState.submitted) return;
-  if (examAnsweredCount() !== activeQuestions.length) {
-    renderExamSummary();
-    return;
-  }
   examState.results = {};
   activeQuestions.forEach(item => {
     const q = item.question;
